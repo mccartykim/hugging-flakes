@@ -10,22 +10,23 @@
       pkgs = import nixpkgs {
         system = "x86_64-linux";
       };
-      model = pkgs.fetchgit {
+      in 
+    pkgs.stdenv.mkDerivation {
+    name = "llama-cpp-with-model";
+        buildInputs = [ pkgs.llama-cpp ]; # Ensure llama-cpp is available
+	src = pkgs.fetchgit {
         url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF.git";
         rev = "191239b3e26b2882fb562ffccdd1cf0f65402adb";
         hash = "sha256-WeRLiFFEDX4lNqHVAh9KnplmKGlpWXSDXlKfu2AatqE=";
         fetchLFS = true;
 	sparseCheckout = [ "llama-2-7b-chat.Q4_K_M.gguf" ];
       };
-  in 
-    pkgs.stdenv.mkDerivation {
-    name = "llama-cpp-with-model";
-        buildInputs = [ pkgs.llama-cpp ]; # Ensure llama-cpp is available
+
 
         installPhase = ''
           mkdir -p $out/bin
           echo "#!${pkgs.stdenv.shell}" > $out/bin/run-llama-cpp
-          echo "${pkgs.llama-cpp}/bin/llama-cpp-main ${model}" >> $out/bin/run-llama-cpp
+          echo "${pkgs.llama-cpp}/bin/llama-cpp-main ./llama-2-7b-chat.Q4_K_M.gguf" >> $out/bin/run-llama-cpp
           chmod +x $out/bin/run-llama-cpp
         '';
     };
