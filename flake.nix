@@ -13,7 +13,7 @@
       };
       in 
     pkgs.stdenv.mkDerivation {
-    name = "llama-cpp-with-model";
+    name = "llama-cpp-plus-model";
         buildInputs = [ pkgs.llama-cpp ]; # Ensure llama-cpp is available
 	src = pkgs.fetchgit {
         url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF.git";
