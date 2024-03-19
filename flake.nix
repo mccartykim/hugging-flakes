@@ -36,7 +36,7 @@
 	in 
       pkgs.stdenv.mkDerivation {
       name = "llama-cpp-plus-model";
-	  buildInputs = [ pkgs.llama-cpp ]; # Ensure llama-cpp is available
+	  buildInputs = [ pkgs.llama-cpp pkgs.llama-2-7b-chat-q4-k-m-gguf ]; # Ensure llama-cpp is available
 
 
         installPhase = ''
