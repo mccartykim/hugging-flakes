@@ -13,7 +13,7 @@
       model = pkgs.fetchgit {
         url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF.git";
         rev = "191239b3e26b2882fb562ffccdd1cf0f65402adb";
-        hash = "sha256:08a5566d61d7cb6b420c3e4387a39e0078e1f2fe5f055f3a03887385304d4bfa";
+        hash = "sha256-WeRLiFFEDX4lNqHVAh9KnplmKGlpWXSDXlKfu2AatqE=";
         fetchLFS = true;
 	sparseCheckout = [ "llama-2-7b-chat.Q4_K_M.gguf" ];
       };
