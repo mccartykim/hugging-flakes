@@ -27,7 +27,7 @@
         installPhase = ''
           mkdir -p $out/bin
           echo "#!${pkgs.stdenv.shell}" > $out/bin/run-llama-cpp
-          echo "${pkgs.llama-cpp}/bin/llama-cpp-main -m ${modelUrl}" >> $out/bin/run-llama-cpp
+          echo "${pkgs.llama-cpp}/bin/llama -m ${modelUrl}" >> $out/bin/run-llama-cpp
           chmod +x $out/bin/run-llama-cpp
         '';
     };
