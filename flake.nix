@@ -6,7 +6,7 @@
   };
 
   outputs = { self, nixpkgs, ... }: {
-    packages.x86_64-linux = { 
+    packages.x86_64-linux = rec { 
 
       llama-2-7b-chat-q4-k-m-gguf = let
 	pkgs = import nixpkgs {
