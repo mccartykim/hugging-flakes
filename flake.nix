@@ -7,6 +7,7 @@
 
   outputs = { self, nixpkgs, ... }: {
     packages.x86_64-linux.llamaa = let
+      modelUrl = "llama-2-7b-chat.Q4_K_M.gguf";
       pkgs = import nixpkgs {
         system = "x86_64-linux";
       };
@@ -19,14 +20,14 @@
         rev = "191239b3e26b2882fb562ffccdd1cf0f65402adb";
         hash = "sha256-WeRLiFFEDX4lNqHVAh9KnplmKGlpWXSDXlKfu2AatqE=";
         fetchLFS = true;
-	sparseCheckout = [ "llama-2-7b-chat.Q4_K_M.gguf" ];
+	sparseCheckout = [ modelUrl ];
       };
 
 
         installPhase = ''
           mkdir -p $out/bin
           echo "#!${pkgs.stdenv.shell}" > $out/bin/run-llama-cpp
-          echo "${pkgs.llama-cpp}/bin/llama-cpp-main ./llama-2-7b-chat.Q4_K_M.gguf" >> $out/bin/run-llama-cpp
+          echo "${pkgs.llama-cpp}/bin/llama-cpp-main ${modelUrl}" >> $out/bin/run-llama-cpp
           chmod +x $out/bin/run-llama-cpp
         '';
     };
