@@ -36,20 +36,15 @@
 	  nixpkgs.x86_64-linux.llama-2-7b-chat-q4-k-m-gguf = model;
 	};
 	in 
-      pkgs.stdenv.mkDerivation {
+      pkgs.writeShellApplication {
       name = "llama-cpp-plus-model";
-	  buildInputs = [ 
+	  runtimeInputs = [ 
 	  pkgs.llama-cpp 
 	  model
 	  ]; # Ensure llama-cpp is available
 
 
-        installPhase = ''
-          mkdir -p $out/bin
-          echo "#!${pkgs.stdenv.shell}" > $out/bin/run-llama-cpp
-          echo "${pkgs.llama-cpp}/bin/llama -m ${ model }/llama-2-7b-chat.Q4_K_M.gguf" >> $out/bin/run-llama-cpp
-          chmod +x $out/bin/run-llama-cpp
-        '';
+        text = "${pkgs.llama-cpp}/bin/llama -m ${model}/llama-2-7b-chat.Q4_K_M.gguf";
     };
   };
  };
