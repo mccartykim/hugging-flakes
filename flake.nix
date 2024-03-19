@@ -23,7 +23,8 @@
 	    };
 
 	    installPhase = ''
-	      cp llama-2-7b-chat.Q4_K_M.gguf $out
+	      mkdir -p $out/share/gguf
+	      cp llama-2-7b-chat.Q4_K_M.gguf $out/share/gguf/
 	    '';
 	};
 	in rec {
@@ -44,7 +45,7 @@
 	  ]; # Ensure llama-cpp is available
 
 
-        text = "${pkgs.llama-cpp}/bin/llama -m ${model}/llama-2-7b-chat.Q4_K_M.gguf";
+        text = "${pkgs.llama-cpp}/bin/llama -m ${model}/share/gguf/llama-2-7b-chat.Q4_K_M.gguf";
     };
   };
  };
