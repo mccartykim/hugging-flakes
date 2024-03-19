@@ -22,7 +22,7 @@
 	    mk -p $out/share/models
 	    cp llama-2-7b-chat.Q4_K_M.gguf $out
 	  '';
-      }
+      };
       
       llamaa = let
 	modelUrl = "llama-2-7b-chat.Q4_K_M.gguf";
