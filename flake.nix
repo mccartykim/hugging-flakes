@@ -20,7 +20,7 @@
 	    repo = "Llama-2-7B-Chat-GGUF";
 	    file = "llama-2-7b-chat.Q4_K_M.gguf";
 	  in
-	    pkgs.runCommand "get-model" { hash = ""; } ''
+	    pkgs.runCommand "get-model" { hash = ""; sha256 = "aa"; } ''
 	      ${pkgs.python311Packages.huggingface-hub}/bin/huggingface-cli download --local-dir . "${owner}/${repo}" "${file}"
 	      mkdir -p $out/share/gguf
 	      cp ./${file} $out/share/gguf
