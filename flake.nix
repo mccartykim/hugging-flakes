@@ -3,14 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, ... }: {
-    packages.x86_64-linux = 
+  outputs = { self, nixpkgs, flake-utils, ... }: 
+    flake-utils.lib.eachDefaultSystem (system:
       let 
 	modelUrl = "llama-2-7b-chat.Q4_K_M.gguf";
 	pkgs = import nixpkgs {
-	  system = "x86_64-linux";
+	  system = system;
 	};
         model = 
 	  let 
@@ -31,22 +32,21 @@
 	      mkdir -p $out/share/gguf
 	      cp ./${file} $out/share/gguf
 	    '';
-	in rec {
-      llama-2-7b-chat-q4-k-m-gguf = model;
-      default = llamaa;
-      
-      llamaa = pkgs.writeShellApplication {
-	name = "llama-cpp-plus-model";
-	  runtimeInputs = [ 
-	  pkgs.llama-cpp 
-	  model
-	  ]; # Ensure llama-cpp is available
+      in 
+	{ packages = rec {
+	  llama-2-7b-chat-q4-k-m-gguf = model;
+	  default = llamaa;
+	  
+	  llamaa = pkgs.writeShellApplication {
+	    name = "llama-cpp-plus-model";
+	      runtimeInputs = [ 
+		pkgs.llama-cpp 
+		model
+	      ];
 
-
-        text = "${pkgs.llama-cpp}/bin/llama -m ${ model }/share/gguf/llama-2-7b-chat.Q4_K_M.gguf";
-    };
-  };
- };
+	    text = "${pkgs.llama-cpp}/bin/llama -m ${ model }/share/gguf/llama-2-7b-chat.Q4_K_M.gguf";
+	  };
+	};
+      }
+   );
  }
-    
-    
