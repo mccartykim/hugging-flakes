@@ -32,20 +32,20 @@
 	      mkdir -p $out/share/gguf
 	      cp ./${file} $out/share/gguf
 	    '';
+	llamaa = pkgs.writeShellApplication {
+	  name = "llama-cpp-plus-model";
+	    runtimeInputs = [ 
+	      pkgs.llama-cpp 
+	      model
+	    ];
+
+	  text = "${pkgs.llama-cpp}/bin/llama -m ${ model }/share/gguf/llama-2-7b-chat.Q4_K_M.gguf";
+	};
       in 
 	{ packages = rec {
 	  llama-2-7b-chat-q4-k-m-gguf = model;
 	  default = llamaa;
 	  
-	  llamaa = pkgs.writeShellApplication {
-	    name = "llama-cpp-plus-model";
-	      runtimeInputs = [ 
-		pkgs.llama-cpp 
-		model
-	      ];
-
-	    text = "${pkgs.llama-cpp}/bin/llama -m ${ model }/share/gguf/llama-2-7b-chat.Q4_K_M.gguf";
-	  };
 	};
       }
    );
