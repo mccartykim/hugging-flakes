@@ -44,7 +44,7 @@
 	{ packages = rec {
 	  llama-2-7b-chat-q4-k-m-gguf = model;
 	  default = llamaa;
-	  docker = pkgs.dockerTools.buildLayeredImage {
+	  docker = pkgs.dockerTools.streamLayeredImage {
 	    name = "kimb/llama_docker";
 	    tag = "latest";
 	    contents = with pkgs; [ llamaa ];
