@@ -14,18 +14,25 @@
 	};
         model = pkgs.stdenv.mkDerivation {
 	  name = "llama2 7b chat q4 k m gguf";
-	  src = pkgs.fetchgit {
-	    url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF.git";
-	    rev = "191239b3e26b2882fb562ffccdd1cf0f65402adb";
-	    hash = "sha256-WeRLiFFEDX4lNqHVAh9KnplmKGlpWXSDXlKfu2AatqE=";
-	    fetchLFS = true;
-	    sparseCheckout = [ "llama-2-7b-chat.Q4_K_M.gguf" ];
-	  };
+	  buildPackages = [ pkgs.python311Packages.huggingface-hub ];
+	  src = let 
+	    owner = "TheBloke";
+	    repo = "Llama-2-7B-Chat-GGUF";
+	    file = "llama-2-7b-chat.Q4_K_M.gguf";
+	  in
+	    pkgs.runCommand "get-model" { hash = ""; } ''
+	      ${pkgs.python311Packages.huggingface-hub}/bin/huggingface-cli download --local-dir . "${owner}/${repo}" "${file}"
+	      mkdir -p $out/share/gguf
+	      cp ./${file} $out/share/gguf
+	    '';
 
-	  installPhase = ''
-	    mkdir -p $out/share/gguf
-	    cp llama-2-7b-chat.Q4_K_M.gguf $out/share/gguf/
-	  '';
+	  # fetchgit {
+	  #  url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF.git";
+	  #  rev = "191239b3e26b2882fb562ffccdd1cf0f65402adb";
+	  #  hash = "sha256-WeRLiFFEDX4lNqHVAh9KnplmKGlpWXSDXlKfu2AatqE=";
+	  #  fetchLFS = true;
+	  #  sparseCheckout = [ "llama-2-7b-chat.Q4_K_M.gguf" ];
+	  # };
 	};
 	in rec {
       llama-2-7b-chat-q4-k-m-gguf = model;
