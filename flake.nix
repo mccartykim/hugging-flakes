@@ -23,14 +23,13 @@
 	      name = "llama2 7b chat q4 k m gguf";
 	      buildPackages = [ pkgs.python311Packages.huggingface-hub ];
 	      outputHashAlgo = "sha256";
-	      outputHashMode = "recursive";
-	      outputHash = "sha256-gLCE9cBcmmZzZQhaeUg7jx1aUApPLpFWpfs5yytH0Cw="; 
+	      outputHashMode = "flat";
+	      outputHash = "";
 	    } ''
 	      # Homeless huggingface bug workaround
 	      export HOME=$(pwd)
 	      ${pkgs.python311Packages.huggingface-hub}/bin/huggingface-cli download --local-dir . "${owner}/${repo}" "${file}"
-	      mkdir -p $out/share/gguf
-	      cp ./${file} $out/share/gguf
+	      cp ./${file} $out
 	    '';
 	llamaa = pkgs.writeShellApplication {
 	  name = "llama-cpp-plus-model";
@@ -39,7 +38,7 @@
 	      model
 	    ];
 
-	  text = "${pkgs.llama-cpp}/bin/llama -m ${ model }/share/gguf/llama-2-7b-chat.Q4_K_M.gguf";
+	  text = "${pkgs.llama-cpp}/bin/llama -m ${ model }";
 	};
       in 
 	{ packages = rec {
