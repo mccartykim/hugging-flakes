@@ -23,7 +23,7 @@
 	      buildPackages = [ pkgs.python311Packages.huggingface-hub ];
 	      outputHashAlgo = "sha256";
 	      outputHashMode = "recursive";
-	      outputHash = ""; 
+	      outputHash = "sha256-gLCE9cBcmmZzZQhaeUg7jx1aUApPLpFWpfs5yytH0Cw="; 
 	    } ''
 	      # Homeless huggingface bug workaround
 	      export HOME=$(pwd)
