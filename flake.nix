@@ -33,6 +33,7 @@
 	    '';
 	in rec {
       llama-2-7b-chat-q4-k-m-gguf = model;
+      default = llamaa;
       
       llamaa = pkgs.writeShellApplication {
 	name = "llama-cpp-plus-model";
