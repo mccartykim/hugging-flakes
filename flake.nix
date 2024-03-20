@@ -44,7 +44,14 @@
 	{ packages = rec {
 	  llama-2-7b-chat-q4-k-m-gguf = model;
 	  default = llamaa;
-	  
+	  docker = pkgs.dockerTools.buildLayeredImage {
+	    name = "kimb/llama_docker";
+	    tag = "latest";
+	    contents = with pkgs; [ llamaa ];
+	    config = {
+	      Cmd = "${llamaa}/bin/llama-cpp-plus-model";
+	    };
+	  };
 	};
       }
    );
