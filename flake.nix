@@ -12,15 +12,15 @@
 	pkgs = import nixpkgs {
 	  system = "x86_64-linux";
 	};
-        model = pkgs.stdenv.mkDerivation {
-	  name = "llama2 7b chat q4 k m gguf";
-	  buildPackages = [ pkgs.python311Packages.huggingface-hub ];
-	  src = let 
+        model = 
+	  let 
 	    owner = "TheBloke";
 	    repo = "Llama-2-7B-Chat-GGUF";
 	    file = "llama-2-7b-chat.Q4_K_M.gguf";
 	  in
 	    pkgs.runCommand "get-model" { 
+	      name = "llama2 7b chat q4 k m gguf";
+	      buildPackages = [ pkgs.python311Packages.huggingface-hub ];
 	      outputHashAlgo = "sha256";
 	      outputHashMode = "recursive";
 	      outputHash = ""; 
@@ -31,7 +31,6 @@
 	      mkdir -p $out/share/gguf
 	      cp ./${file} $out/share/gguf
 	    '';
-	};
 	in rec {
       llama-2-7b-chat-q4-k-m-gguf = model;
       
