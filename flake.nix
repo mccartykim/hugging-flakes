@@ -15,6 +15,7 @@
         model = pkgs.stdenv.mkDerivation {
 	  name = "llama2 7b chat q4 k m gguf";
 	  buildPackages = [ pkgs.python311Packages.huggingface-hub ];
+	  __no_chroot = true;
 	  src = let 
 	    owner = "TheBloke";
 	    repo = "Llama-2-7B-Chat-GGUF";
